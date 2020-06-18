@@ -5,7 +5,6 @@ import ru.konstanteam.lokpackager.tools.Tools;
 import ru.konstanteam.lokpackager.tools.objects.DataHead;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class UnPackager {
@@ -21,7 +20,7 @@ public class UnPackager {
     public void unpack() throws IOException {
         packageStream.skip(Packager.HEAD_SIZE);
 
-        while (packageStream.available() != -1) {
+        while (packageStream.available() != 0) {
             DataHead head = new DataHead(packageStream);
 
             if (head.path == null || head.path.isEmpty())
@@ -30,7 +29,7 @@ public class UnPackager {
             BufferedOutputStream outputStream = outputGenerator.getOutput(head.path);
             streams.add(outputStream);
 
-            Tools.readDataFromStream(outputStream, packageStream);
+            Tools.copyData(head.size, outputStream, packageStream);
 
             outputStream.close();
         }

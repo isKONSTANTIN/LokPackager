@@ -39,26 +39,8 @@ public class Tools {
         return new String(bytes);
     }
 
-    public static void writeDataToStream(long size, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
-        outputStream.write(longToBytes(size));
-
+    public static void copyData(long size, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
         for (long i = 0; i < size; i++) {
-            byte fileByte = (byte) inputStream.read();
-            outputStream.write(fileByte);
-        }
-
-        outputStream.flush();
-    }
-
-    public static void readDataFromStream(BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
-        byte[] fileSizeBytes = new byte[Long.BYTES];
-        long fileSize;
-
-        inputStream.read(fileSizeBytes);
-
-        fileSize = bytesToLong(fileSizeBytes);
-
-        for (long i = 0; i < fileSize; i++) {
             byte fileByte = (byte) inputStream.read();
             outputStream.write(fileByte);
         }

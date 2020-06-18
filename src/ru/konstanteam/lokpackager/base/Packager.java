@@ -32,9 +32,9 @@ public class Packager {
             InputData inputData = inputGenerator.get();
             streams.add(inputData.stream);
 
-            new DataHead(inputData.path).putInStream(packageStream);
+            new DataHead(inputData.path, inputData.size).putInStream(packageStream);
 
-            Tools.writeDataToStream(inputData.size, packageStream, inputData.stream);
+            Tools.copyData(inputData.size, packageStream, inputData.stream);
 
             inputData.stream.close();
         }
