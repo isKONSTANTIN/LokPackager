@@ -26,20 +26,21 @@ public class UnPackager {
         packageStream.skip(Packager.HEAD_SIZE);
 
         while (packageStream.available() != -1) {
-            byte[] nameFileBufferArray = new byte[Packager.FILES_NAMES_SIZE];
-            ByteBuffer nameFileBuffer = ByteBuffer.allocate(Packager.FILES_NAMES_SIZE);
+            byte[] filePatchBufferArray = new byte[Packager.FILES_PATCHES_SIZE];
+            ByteBuffer filePatchBuffer = ByteBuffer.allocate(Packager.FILES_PATCHES_SIZE);
 
-            if (packageStream.read(nameFileBufferArray) == 0)
+            if (packageStream.read(filePatchBufferArray) == 0)
                 break;
 
-            nameFileBuffer.put(nameFileBufferArray);
-            nameFileBuffer.flip();
-            String newFileName = Tools.getString(nameFileBuffer);
+            filePatchBuffer.put(filePatchBufferArray);
+            filePatchBuffer.flip();
+            String newFilePath = Tools.getString(filePatchBuffer);
 
-            if (newFileName.isEmpty())
+            if (newFilePath.isEmpty())
                 break;
 
-            File newFile = new File(outputPath + newFileName);
+            File newFile = new File(outputPath + newFilePath);
+            newFile.getParentFile().mkdirs();
 
             if (!newFile.createNewFile())
                 throw new IOException("Cannot create new file!");

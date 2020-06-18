@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Packager {
     public static final String FILE_SIGNATURE = "LOK_PACKAGE_FILE_0_1";
     public static final int HEAD_SIZE = 512;
-    public static final int FILES_NAMES_SIZE = 256;
+    public static final int FILES_PATCHES_SIZE = 256;
 
     protected ArrayList<File> files = new ArrayList<>();
     protected BufferedOutputStream packageStream;
@@ -28,7 +28,11 @@ public class Packager {
         if (!file.canRead())
             throw new IOException("File not readable");
 
-        files.add(file);
+        if (file.isDirectory()){
+            for (File file1 : file.listFiles())
+                addFile(file1);
+        }else
+            files.add(file);
     }
 
     public void build() throws IOException {
@@ -40,9 +44,9 @@ public class Packager {
         for (File file : files) {
             BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 
-            ByteBuffer nameFileBuffer = ByteBuffer.allocate(FILES_NAMES_SIZE);
-            Tools.putString(nameFileBuffer, file.getName());
-            packageStream.write(nameFileBuffer.array());
+            ByteBuffer filePatchBuffer = ByteBuffer.allocate(FILES_PATCHES_SIZE);
+            Tools.putString(filePatchBuffer, file.getPath());
+            packageStream.write(filePatchBuffer.array());
 
             Tools.writeFileToStream(file.length(), packageStream, inputStream);
 

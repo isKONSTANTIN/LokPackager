@@ -21,12 +21,8 @@ public class Main {
         for (String arg : Arrays.copyOfRange(args, 1, args.length)) {
             File file = new File(arg);
 
-            if (file.isFile() && file.canRead())
+            if (file.canRead())
                 packager.addFile(file);
-            else if (!file.isDirectory()) {
-                System.out.println("File '" + arg + "' cannot be added!");
-                return;
-            }
         }
 
         packager.build();
