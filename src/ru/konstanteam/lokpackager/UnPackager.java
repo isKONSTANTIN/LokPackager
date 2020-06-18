@@ -3,18 +3,19 @@ package ru.konstanteam.lokpackager;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
 
 public class UnPackager {
     protected BufferedInputStream packageStream;
     protected String outputPath = "./";
     protected ArrayList<File> files = new ArrayList<>();
 
-    public UnPackager(String packageFilePath, String outputPath) throws FileNotFoundException {
+    public UnPackager(String packageFilePath, String outputPath) throws IOException {
         this(new File(packageFilePath), outputPath);
     }
 
-    public UnPackager(File packageFile, String outputPath) throws FileNotFoundException {
-        this(new BufferedInputStream(new FileInputStream(packageFile)), outputPath);
+    public UnPackager(File packageFile, String outputPath) throws IOException {
+        this(new BufferedInputStream(new GZIPInputStream(new FileInputStream(packageFile))), outputPath);
     }
 
     public UnPackager(BufferedInputStream packageStream, String outputPath) {

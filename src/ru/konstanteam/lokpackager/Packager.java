@@ -3,21 +3,23 @@ package ru.konstanteam.lokpackager;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class Packager {
-    public static final String FILE_SIGNATURE = "LOK_PACKAGE_FILE_0_1";
-    public static final int HEAD_SIZE = 512;
+    public static final String FILE_SIGNATURE = "LOK_PACKAGE_FILE_0_2";
+    public static final int HEAD_SIZE = 64;
     public static final int FILES_PATCHES_SIZE = 256;
 
     protected ArrayList<File> files = new ArrayList<>();
     protected BufferedOutputStream packageStream;
 
-    public Packager(String packageFilePath) throws FileNotFoundException {
+    public Packager(String packageFilePath) throws IOException {
         this(new File(packageFilePath));
     }
 
-    public Packager(File packageFile) throws FileNotFoundException {
-        this(new BufferedOutputStream(new FileOutputStream(packageFile)));
+    public Packager(File packageFile) throws IOException {
+        this(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(packageFile))));
     }
 
     public Packager(BufferedOutputStream packageStream) {
