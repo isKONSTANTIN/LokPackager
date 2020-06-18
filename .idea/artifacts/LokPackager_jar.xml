@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LokPackager:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LokPackager_jar</output-path>
+    <root id="archive" name="LokPackager.jar">
+      <element id="module-output" name="LokPackager" />
+    </root>
+  </artifact>
+</component>
