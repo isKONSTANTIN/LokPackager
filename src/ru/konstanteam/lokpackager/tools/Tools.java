@@ -1,4 +1,4 @@
-package ru.konstanteam.lokpackager;
+package ru.konstanteam.lokpackager.tools;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -6,18 +6,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class Tools {
-
-    public static int indexOf(byte[] array, byte[] target) {
-        outer:
-        for (int i = 0; i < array.length - target.length + 1; i++) {
-            for (int j = 0; j < target.length; j++) {
-                if (array[i + j] != target[j]) {
-                    continue outer;
-                }
-            }
-            return i;
-        }
-        return -1;
+    public static int stringSizeInBuffer(String string){
+        byte[] bytes = string.getBytes();
+        return bytes.length + Integer.BYTES;
     }
 
     public static void putString(ByteBuffer byteBuffer, String string) {
@@ -48,10 +39,10 @@ public class Tools {
         return new String(bytes);
     }
 
-    public static void writeFileToStream(long fileSize, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
-        outputStream.write(longToBytes(fileSize));
+    public static void writeDataToStream(long size, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
+        outputStream.write(longToBytes(size));
 
-        for (long i = 0; i < fileSize; i++) {
+        for (long i = 0; i < size; i++) {
             byte fileByte = (byte) inputStream.read();
             outputStream.write(fileByte);
         }
@@ -59,7 +50,7 @@ public class Tools {
         outputStream.flush();
     }
 
-    public static void readFileFromStream(BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
+    public static void readDataFromStream(BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
         byte[] fileSizeBytes = new byte[Long.BYTES];
         long fileSize;
 
