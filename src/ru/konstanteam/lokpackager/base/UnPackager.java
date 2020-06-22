@@ -17,7 +17,9 @@ public class UnPackager {
         this.outputGenerator = outputGenerator;
     }
 
-    public void unpack() throws IOException {
+    public int unpack() throws IOException {
+        int heads = 0;
+
         packageStream.skip(Packager.HEAD_SIZE);
 
         while (packageStream.available() != 0) {
@@ -30,9 +32,12 @@ public class UnPackager {
             streams.add(outputStream);
 
             Tools.copyData(head.size, outputStream, packageStream);
+            heads++;
 
             outputStream.close();
         }
+
+        return heads;
     }
 
     public ArrayList<BufferedOutputStream> getStreams() {
