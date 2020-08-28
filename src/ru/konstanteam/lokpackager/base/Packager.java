@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class Packager {
-    public static final String PACKAGE_SIGNATURE = "LOK_PACKAGE_FILE_0_4";
+    public static final String PACKAGE_SIGNATURE = "LOK_PACKAGE_FILE_0_5";
     public static final int HEAD_SIZE = 64;
 
     protected ArrayList<BufferedInputStream> streams = new ArrayList<>();

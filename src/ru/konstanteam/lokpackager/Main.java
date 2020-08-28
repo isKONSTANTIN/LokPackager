@@ -63,7 +63,7 @@ public class Main {
     }
 
     public static void showTip() {
-        System.out.println("LokPackager 0.4");
+        System.out.println("LokPackager 0.5");
         System.out.println("-p <package_file> ... - pack files");
         System.out.println("-u <package_file> <path_to_unpack> - unpack files");
         System.out.println("-i <package_file> - package info");

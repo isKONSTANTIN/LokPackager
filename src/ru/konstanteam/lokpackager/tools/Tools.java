@@ -41,11 +41,25 @@ public class Tools {
 
     public static void copyData(long size, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
         for (long i = 0; i < size; i++) {
-            byte fileByte = (byte) inputStream.read();
-            outputStream.write(fileByte);
+            byte inputByte = (byte) inputStream.read();
+            outputStream.write(inputByte);
         }
 
         outputStream.flush();
+    }
+
+    public static long copyData(BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
+        long size = 0;
+        int inputByte;
+
+        while ((inputByte = inputStream.read()) != -1){
+            outputStream.write(inputByte);
+            size++;
+        }
+
+        outputStream.flush();
+
+        return size;
     }
 
 }

@@ -4,12 +4,13 @@ import ru.konstanteam.lokpackager.base.Packager;
 import ru.konstanteam.lokpackager.tools.InputGenerator;
 
 import java.io.*;
+import java.util.zip.GZIPOutputStream;
 
 public class FilesPackager extends Packager {
     protected FilesInputGenerator generator;
 
-    public FilesPackager(File packageFile) throws FileNotFoundException {
-        this(new BufferedOutputStream(new FileOutputStream(packageFile)));
+    public FilesPackager(File packageFile) throws IOException {
+        this(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(packageFile))));
     }
 
     public FilesPackager(BufferedOutputStream packageStream) {
