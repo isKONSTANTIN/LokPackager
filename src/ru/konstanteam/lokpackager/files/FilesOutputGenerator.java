@@ -17,7 +17,7 @@ public class FilesOutputGenerator implements OutputGenerator {
 
     @Override
     public BufferedOutputStream getOutput(String path) throws IOException {
-        File output = new File(outputDirectory + "/" + path);
+        File output = new File((outputDirectory + "/" + path).replaceAll("\\\\", "/"));
         output.getParentFile().mkdirs();
         output.createNewFile();
 
