@@ -10,10 +10,10 @@ public class FilesPackager extends Packager {
     protected FilesInputGenerator generator;
 
     public FilesPackager(File packageFile) throws IOException {
-        this(new BufferedOutputStream(new GZIPOutputStream(new FileOutputStream(packageFile))));
+        this(new FileOutputStream(packageFile));
     }
 
-    public FilesPackager(BufferedOutputStream packageStream) {
+    public FilesPackager(OutputStream packageStream) throws IOException {
         super(packageStream, new FilesInputGenerator());
 
         this.generator = (FilesInputGenerator) this.inputGenerator;

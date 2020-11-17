@@ -7,6 +7,6 @@ import java.util.zip.GZIPInputStream;
 
 public class FilesPackageInfo extends PackageInfo {
     public FilesPackageInfo(File packageFile) throws IOException {
-        super(new BufferedInputStream(new GZIPInputStream(new FileInputStream(packageFile))));
+        super(new BufferedInputStream(new FileInputStream(packageFile)));
     }
 }

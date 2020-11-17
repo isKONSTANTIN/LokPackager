@@ -6,14 +6,14 @@ import ru.konstanteam.lokpackager.tools.objects.DataHead;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
 
 public class UnPackager {
-    protected BufferedInputStream packageStream;
+    protected InputStream packageStream;
     protected OutputGenerator outputGenerator;
-    protected ArrayList<BufferedOutputStream> streams = new ArrayList<>();
 
-    public UnPackager(BufferedInputStream packageStream, OutputGenerator outputGenerator) {
-        this.packageStream = packageStream;
+    public UnPackager(InputStream packageStream, OutputGenerator outputGenerator) throws IOException {
+        this.packageStream = new BufferedInputStream(new GZIPInputStream(packageStream));
         this.outputGenerator = outputGenerator;
     }
 
@@ -28,8 +28,7 @@ public class UnPackager {
             if (head.path == null || head.path.isEmpty())
                 break;
 
-            BufferedOutputStream outputStream = outputGenerator.getOutput(head.path);
-            streams.add(outputStream);
+            OutputStream outputStream = outputGenerator.getOutput(head.path);
 
             Tools.copyData(head.size, outputStream, packageStream);
             heads++;
@@ -38,9 +37,5 @@ public class UnPackager {
         }
 
         return heads;
-    }
-
-    public ArrayList<BufferedOutputStream> getStreams() {
-        return streams;
     }
 }

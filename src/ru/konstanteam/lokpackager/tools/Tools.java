@@ -1,8 +1,6 @@
 package ru.konstanteam.lokpackager.tools;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 public class Tools {
@@ -39,7 +37,7 @@ public class Tools {
         return new String(bytes);
     }
 
-    public static void copyData(long size, BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
+    public static void copyData(long size, OutputStream outputStream, InputStream inputStream) throws IOException {
         for (long i = 0; i < size; i++) {
             byte inputByte = (byte) inputStream.read();
             outputStream.write(inputByte);
@@ -48,7 +46,7 @@ public class Tools {
         outputStream.flush();
     }
 
-    public static long copyData(BufferedOutputStream outputStream, BufferedInputStream inputStream) throws IOException {
+    public static long copyData(OutputStream outputStream, InputStream inputStream) throws IOException {
         long size = 0;
         int inputByte;
 

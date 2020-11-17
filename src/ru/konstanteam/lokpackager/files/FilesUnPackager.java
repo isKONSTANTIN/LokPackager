@@ -10,7 +10,7 @@ public class FilesUnPackager extends UnPackager {
     protected FilesOutputGenerator generator;
 
     public FilesUnPackager(File packageFile, File outputDirectory) throws IOException {
-        this(new BufferedInputStream(new GZIPInputStream(new FileInputStream(packageFile))), outputDirectory.getPath());
+        this(new BufferedInputStream(new FileInputStream(packageFile)), outputDirectory.getPath());
     }
 
     public FilesUnPackager(BufferedInputStream packageStream, String outputDirectory) throws IOException {

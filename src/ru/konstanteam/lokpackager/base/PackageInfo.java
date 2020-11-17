@@ -9,12 +9,15 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
 
 public class PackageInfo {
     protected final String packageSignature;
     protected final ArrayList<DataHead> heads = new ArrayList<>();
 
     public PackageInfo(BufferedInputStream packageStream) throws IOException {
+        packageStream = new BufferedInputStream(new GZIPInputStream(packageStream));
+
         byte[] packageHeadArray = new byte[Packager.HEAD_SIZE];
         packageStream.read(packageHeadArray);
         ByteBuffer packageHead = ByteBuffer.wrap(packageHeadArray);

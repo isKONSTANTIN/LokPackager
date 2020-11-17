@@ -8,17 +8,18 @@ import ru.konstanteam.lokpackager.tools.objects.DataHead;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 public class Packager {
     public static final String PACKAGE_SIGNATURE = "LOK_PACKAGE_FILE_0_5";
     public static final int HEAD_SIZE = 64;
 
-    protected ArrayList<BufferedInputStream> streams = new ArrayList<>();
-    protected BufferedOutputStream packageStream;
+    protected OutputStream packageStream;
     protected InputGenerator inputGenerator;
 
-    public Packager(BufferedOutputStream packageStream, InputGenerator inputGenerator) {
-        this.packageStream = packageStream;
+    public Packager(OutputStream packageStream, InputGenerator inputGenerator) throws IOException {
+        this.packageStream = new BufferedOutputStream(new GZIPOutputStream(packageStream));
         this.inputGenerator = inputGenerator;
     }
 
@@ -30,7 +31,6 @@ public class Packager {
 
         while (inputGenerator.available()){
             InputData inputData = inputGenerator.get();
-            streams.add(inputData.stream);
 
             new DataHead(inputData.path, inputData.size).putInStream(packageStream);
 
@@ -38,9 +38,5 @@ public class Packager {
 
             inputData.stream.close();
         }
-    }
-
-    public ArrayList<BufferedInputStream> getStreams() {
-        return streams;
     }
 }

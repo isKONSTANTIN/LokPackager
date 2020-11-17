@@ -2,9 +2,7 @@ package ru.konstanteam.lokpackager.tools.objects;
 
 import ru.konstanteam.lokpackager.tools.Tools;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 public class DataHead {
@@ -16,7 +14,7 @@ public class DataHead {
         this.size = size;
     }
 
-    public void putInStream(BufferedOutputStream stream) throws IOException {
+    public void putInStream(OutputStream stream) throws IOException {
         int dataLength = Tools.stringSizeInBuffer(path) + Long.BYTES;
         ByteBuffer byteBuffer = ByteBuffer.allocate(dataLength);
 
@@ -27,7 +25,7 @@ public class DataHead {
         stream.write(byteBuffer.array());
     }
 
-    public DataHead(BufferedInputStream stream) throws IOException {
+    public DataHead(InputStream stream) throws IOException {
         byte[] headSizeArray = new byte[Long.BYTES];
         if (stream.read(headSizeArray) != Long.BYTES){
             path = null;
