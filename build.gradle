@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+}
+
+mainClassName = 'ru.konstanteam.lokpackager.Main'
+
+group 'ru.konstanteam'
+version '0.1-' + getDate()
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+static def getDate() {
+    return new Date().format('yyyy_MM_dd_HH_mm_ss')
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "https://lab.knst.su/api/v4/projects/10/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = 'Private-Token'
+                value = System.getenv("CI_JOB_TOKEN")
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
+    }
+}
+
+
+jar {
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes(
+                'Main-Class': 'ru.konstanteam.lokpackager.Main'
+        )
+    }
+}
+

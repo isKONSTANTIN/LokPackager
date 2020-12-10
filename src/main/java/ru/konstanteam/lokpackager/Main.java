@@ -49,7 +49,9 @@ public class Main {
     }
 
     public static void handleInfo(String[] args) throws IOException {
-        PackageInfo info = new FilesPackageInfo(new File(args[0]));
+        File packageFile = new File(args[0]);
+        PackageInfo info = new FilesPackageInfo(packageFile);
+
         System.out.println(info.getPackageSignature() + "\n");
         long size = 0;
 
@@ -59,7 +61,7 @@ public class Main {
             size += fileSize;
         }
 
-        System.out.println("\nTotal: " + info.getHeads().size() + " files, " + size + " KB");
+        System.out.println("\nTotal: " + info.getHeads().size() + " files, " + size + " KB (compressed in " + packageFile.length() / 1000L + "KB)");
     }
 
     public static void showTip() {

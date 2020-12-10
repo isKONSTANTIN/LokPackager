@@ -1,0 +1,37 @@
+image: java:8-jdk
+
+stages:
+  - build
+  - test
+  - deploy
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+build:
+  stage: build
+  script:
+    - java -version
+    - ./gradlew assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+test:
+  stage: test
+  script:
+    - ./gradlew check
+
+deploy:
+  stage: deploy
+  script:
+    - ./gradlew publish
+
+
+after_script:
+  - echo "End CI"
